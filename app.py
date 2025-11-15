@@ -109,6 +109,12 @@ with st.expander("ℹ️ About This Project", expanded=False):
 # Main App UI
 # ------------------------------------------------------------------
 st.title("CVD 10-Year Risk Predictor")
+st.caption(
+    "Risk = 10-year chance of **heart attack or stroke** (fatal or non-fatal). "
+    "Based on **WHO/ISH 2007 Risk Prediction Charts** — used in clinics worldwide. "
+    "Source: [PAHO/WHO](https://www3.paho.org/hq/dmdocuments/2010/colour_charts_24_Aug_07.pdf)",
+    unsafe_allow_html=True
+)
 st.markdown("**Upload patient data → Get instant risk %**")
 
 st.info("Required columns: `note`, `age`, `sys_bp`, `dia_bp`, `cholesterol`, `glucose`, `bmi`, `smoke`, `family_hx`")
@@ -164,3 +170,11 @@ if uploaded_file is not None:
         st.error(f"Error: {e}")
 else:
     st.info("Upload a CSV to begin...")
+
+def interpret_risk(val):
+    if val < 10: return "Low — Lifestyle focus"
+    elif val < 20: return "Moderate — Consider meds"
+    elif val < 30: return "High — Start treatment"
+    elif val < 40: return "Very High — Intensive care"
+    else: return "Extremely High — Urgent referral"
+df["Interpretation"] = df["CVD_Risk_%"].apply(interpret_risk)
