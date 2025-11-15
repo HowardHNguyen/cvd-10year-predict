@@ -74,7 +74,7 @@ with st.expander("ℹ️ About This Project", expanded=False):
     | **Class Weight = balanced** | Handles 47.5% CVD rate |
     | **No overfitting** | AUC 0.84 (realistic, not 1.0) |
                 
-    ### TF-IDF + Numeric Fusion: Language Meets Biology
+     **TF-IDF + Numeric Fusion: Language Meets Biology**
     - **TF-IDF** extracts meaning from **clinical notes** (e.g., "shortness of breath")
     - **Numeric scaling** standardizes **vitals** (age, BP, cholesterol)
     - **Fusion** combines both → **richer risk signal**
@@ -91,6 +91,17 @@ with st.expander("ℹ️ About This Project", expanded=False):
     | **Deployable** | Yes | No (overfit) |
     | **Notes** | Natural language | Direct labels |
 
+    ### Risk Levels (Official WHO/ISH Standard)
+    The color coding follows the **World Health Organization / International Society of Hypertension (WHO/ISH) 2007 Risk Prediction Charts**:
+
+    - **Green** < 10%  
+    - **Yellow** 10% – < 20%  
+    - **Orange** 20% – < 30%  
+    - **Red** 30% – < 40%  
+    - **Deep Red** ≥ 40%
+
+    Source: [WHO/ISH Risk Prediction Charts](https://www3.paho.org/hq/dmdocuments/2010/colour_charts_24_Aug_07.pdf)
+                
     **This is the future of ethical, deployable medical AI. It’s a blueprint for the future of EHR-based AI.**
     """)
 
