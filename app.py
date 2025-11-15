@@ -65,12 +65,6 @@ with st.expander("ℹ️ About This Project", expanded=False):
     - **Zero disease labels in notes** (no "MI", "CAD", "TIA", etc.)
     - **TF-IDF on clinical notes** + **standardized vitals**
     - **Logistic Regression** (gold standard for clinical risk)
-                
-    ### TF-IDF + Numeric Fusion: Language Meets Biology
-    - **TF-IDF** extracts meaning from **clinical notes** (e.g., "shortness of breath")
-    - **Numeric scaling** standardizes **vitals** (age, BP, cholesterol)
-    - **Fusion** combines both → **richer risk signal**
-    - **Why it works**: Doctors use **both words and numbers** — so should AI.
 
     ### 4. **Key Methods**
     | Method | Why |
@@ -79,7 +73,13 @@ with st.expander("ℹ️ About This Project", expanded=False):
     | **Stratified 80/20 Split** | Prevents leakage |
     | **Class Weight = balanced** | Handles 47.5% CVD rate |
     | **No overfitting** | AUC 0.84 (realistic, not 1.0) |
-
+                
+    ### TF-IDF + Numeric Fusion: Language Meets Biology
+    - **TF-IDF** extracts meaning from **clinical notes** (e.g., "shortness of breath")
+    - **Numeric scaling** standardizes **vitals** (age, BP, cholesterol)
+    - **Fusion** combines both → **richer risk signal**
+    - **Why it works**: Doctors use **both words and numbers** — so should AI.
+                
     ### 5. **Why It Matters**
     > **Unlike [CVDStack](https://cvdstack.streamlit.app/)** — which uses **direct disease labels** and gets **AUC = .993** —  
     > **This model is clinically realistic** and **ready for real hospitals**.
