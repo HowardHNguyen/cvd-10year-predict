@@ -134,6 +134,14 @@ def color_risk(val):
     else:
         return "background-color: #9d1c1f; color: white"     # Deep Red
 
+def interpret_risk(val):
+    if val < 10: return "Low — Lifestyle focus"
+    elif val < 20: return "Moderate — Consider meds"
+    elif val < 30: return "High — Start treatment"
+    elif val < 40: return "Very High — Intensive care"
+    else: return "Extremely High — Urgent referral"
+df["Interpretation"] = df["CVD_Risk_%"].apply(interpret_risk)
+
 uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
 
 if uploaded_file is not None:
@@ -170,11 +178,3 @@ if uploaded_file is not None:
         st.error(f"Error: {e}")
 else:
     st.info("Upload a CSV to begin...")
-
-def interpret_risk(val):
-    if val < 10: return "Low — Lifestyle focus"
-    elif val < 20: return "Moderate — Consider meds"
-    elif val < 30: return "High — Start treatment"
-    elif val < 40: return "Very High — Intensive care"
-    else: return "Extremely High — Urgent referral"
-df["Interpretation"] = df["CVD_Risk_%"].apply(interpret_risk)
