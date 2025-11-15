@@ -111,9 +111,9 @@ def color_risk(val):
     elif val < 20:
         return "background-color: #fff000; color: #856404"  # Yellow
     elif val < 30:
-        return "background-color: #f3771d; color: #d75f00"  # Orange
+        return "background-color: #f3771d; color: white"  # Orange
     elif val < 40:
-        return "background-color: #ea1a21; color: #721c24"  # Red
+        return "background-color: #ea1a21; color: white"  # Red
     else:
         return "background-color: #9d1c1f; color: white"     # Deep Red
 
