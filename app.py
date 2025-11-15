@@ -38,14 +38,6 @@ def train_and_get_model():
     st.success("Model ready! AUC ≈ 0.84")
     return model
 
-def interpret_risk(val):
-    if val < 10: return "Low — Lifestyle focus"
-    elif val < 20: return "Moderate — Consider meds"
-    elif val < 30: return "High — Start treatment"
-    elif val < 40: return "Very High — Intensive care"
-    else: return "Extremely High — Urgent referral"
-df["Interpretation"] = df["CVD_Risk_%"].apply(interpret_risk)
-
 model = train_and_get_model()
 
 # ------------------------------------------------------------------
@@ -56,7 +48,7 @@ st.set_page_config(page_title="CVD Risk Predictor", layout="centered")
 # ------------------------------------------------------------------
 # COLLAPSIBLE "ABOUT THIS PROJECT" TAB
 # ------------------------------------------------------------------
-with st.expander("ℹ️ About This Project", expanded=False):
+with st.expander("About This Project", expanded=False):
     st.markdown("""
     ### 1. **About This Project**
     A **realistic, leak-free, production-ready** 10-year CVD risk prediction model using **clinical notes + vitals**.
@@ -123,25 +115,43 @@ st.caption(
     "Source: [PAHO/WHO](https://www3.paho.org/hq/dmdocuments/2010/colour_charts_24_Aug_07.pdf)",
     unsafe_allow_html=True
 )
-st.markdown("**Upload patient data → Get instant risk %**")
+st.markdown("**Upload patient data → Get instant risk % + clinical guidance**")
 
 st.info("Required columns: `note`, `age`, `sys_bp`, `dia_bp`, `cholesterol`, `glucose`, `bmi`, `smoke`, `family_hx`")
+
+# ------------------------------------------------------------------
+# Risk Interpretation Function
+# ------------------------------------------------------------------
+def interpret_risk(val):
+    if val < 10:
+        return "Low — Lifestyle focus"
+    elif val < 20:
+        return "Moderate — Consider meds"
+    elif val < 30:
+        return "High — Start treatment"
+    elif val < 40:
+        return "Very High — Intensive care"
+    else:
+        return "Extremely High — Urgent referral"
 
 # ------------------------------------------------------------------
 # Color Risk Function (5-tier)
 # ------------------------------------------------------------------
 def color_risk(val):
     if val < 10:
-        return "background-color: #9cc732; color: #155724"  # Green
+        return "background-color: #9cc732; color: white"  # Green
     elif val < 20:
-        return "background-color: #fff000; color: #856404"  # Yellow
+        return "background-color: #fff000; color: black"  # Yellow
     elif val < 30:
         return "background-color: #f3771d; color: white"  # Orange
     elif val < 40:
         return "background-color: #ea1a21; color: white"  # Red
     else:
-        return "background-color: #9d1c1f; color: white"     # Deep Red
+        return "background-color: #9d1c1f; color: white"  # Deep Red
 
+# ------------------------------------------------------------------
+# Upload & Predict
+# ------------------------------------------------------------------
 uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
 
 if uploaded_file is not None:
@@ -157,8 +167,13 @@ if uploaded_file is not None:
                 with st.spinner("Predicting risk..."):
                     prob = model.predict_proba(df)[:, 1]
                     df["CVD_Risk_%"] = (prob * 100).round(1)
+                    df["Risk_Interpretation"] = df["CVD_Risk_%"].apply(interpret_risk)
 
-                    # Apply 5-tier color
+                    # Reorder columns: Risk % → Interpretation → Others
+                    cols = ['CVD_Risk_%', 'Risk_Interpretation'] + [c for c in df.columns if c not in ['CVD_Risk_%', 'Risk_Interpretation']]
+                    df = df[cols]
+
+                    # Apply color only to Risk %
                     styled_df = df.style.applymap(color_risk, subset=["CVD_Risk_%"]) \
                                         .format({"CVD_Risk_%": "{:.1f}"})
 
