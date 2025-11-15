@@ -66,5 +66,7 @@ print(f"\nFINAL REAL AUC: {auc:.4f} | Accuracy: {acc:.4f}")
 # ------------------------------------------------------------------
 # 8. Save model
 # ------------------------------------------------------------------
-joblib.dump(model, "cvd_model_perfect.pkl")
+import pickle
+with open("cvd_model_perfect.pkl", "wb") as f:
+    pickle.dump(model, f)
 print("Saved → cvd_model_perfect.pkl")

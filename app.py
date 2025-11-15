@@ -1,14 +1,15 @@
 # app.py
 import streamlit as st
 import pandas as pd
-import joblib
+import pickle  # <-- Use pickle, not joblib
 
 # ------------------------------------------------------------------
 # Load the trained model (once)
 # ------------------------------------------------------------------
 @st.cache_resource
 def load_model():
-    return joblib.load("cvd_model_perfect.pkl")
+    with open("cvd_model_perfect.pkl", "rb") as f:
+        return pickle.load(f)
 
 model = load_model()
 
