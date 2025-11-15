@@ -1,42 +1,38 @@
 # app.py
 import streamlit as st
 import pandas as pd
-import pickle  # <-- Use pickle, not joblib
+import cloudpickle  # <-- Use cloudpickle
 
 # ------------------------------------------------------------------
-# Load the trained model (once)
+# Load model with cloudpickle
 # ------------------------------------------------------------------
 @st.cache_resource
 def load_model():
     with open("cvd_model_perfect.pkl", "rb") as f:
-        return pickle.load(f)
+        return cloudpickle.load(f)
 
 model = load_model()
 
 st.title("CVD 10-Year Risk Predictor")
 st.write(
-    "Upload a CSV with the same columns as `data_cvd_perfect.csv` "
-    "(note, age, sys_bp, dia_bp, cholesterol, glucose, bmi, smoke, family_hx). "
-    "The app will return the predicted risk percentage."
+    "Upload a CSV with columns: `note`, `age`, `sys_bp`, `dia_bp`, "
+    "`cholesterol`, `glucose`, `bmi`, `smoke`, `family_hx`"
 )
 
-uploaded = st.file_uploader("Choose a CSV file", type=["csv"])
+uploaded = st.file_uploader("Choose CSV", type=["csv"])
 
 if uploaded is not None:
     df = pd.read_csv(uploaded)
-
-    # Predict
     prob = model.predict_proba(df)[:, 1]
     df["CVD_Risk_%"] = (prob * 100).round(1)
 
-    st.write("### Predictions")
+    st.write("### Results")
     st.dataframe(df)
 
-    # Download button
     csv = df.to_csv(index=False).encode()
     st.download_button(
-        label="Download results as CSV",
+        "Download Results",
         data=csv,
-        file_name="cvd_risk_results.csv",
-        mime="text/csv",
+        file_name="cvd_results.csv",
+        mime="text/csv"
     )

@@ -7,13 +7,13 @@ from sklearn.metrics import roc_auc_score, accuracy_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-import joblib
+import cloudpickle
 
 # ------------------------------------------------------------------
 # 1. Load data
 # ------------------------------------------------------------------
 df = pd.read_csv("data_cvd_perfect.csv")
-print(f"Loaded {len(df)} PERFECT rows")
+print(f"Loaded {len(df)} rows")
 
 # ------------------------------------------------------------------
 # 2. Train / test split
@@ -66,7 +66,6 @@ print(f"\nFINAL REAL AUC: {auc:.4f} | Accuracy: {acc:.4f}")
 # ------------------------------------------------------------------
 # 8. Save model
 # ------------------------------------------------------------------
-import pickle
 with open("cvd_model_perfect.pkl", "wb") as f:
-    pickle.dump(model, f)
-print("Saved → cvd_model_perfect.pkl")
+    cloudpickle.dump(model, f)
+print("Saved → cvd_model_perfect.pkl (cloudpickle)")
