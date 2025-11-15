@@ -38,6 +38,14 @@ def train_and_get_model():
     st.success("Model ready! AUC ≈ 0.84")
     return model
 
+def interpret_risk(val):
+    if val < 10: return "Low — Lifestyle focus"
+    elif val < 20: return "Moderate — Consider meds"
+    elif val < 30: return "High — Start treatment"
+    elif val < 40: return "Very High — Intensive care"
+    else: return "Extremely High — Urgent referral"
+df["Interpretation"] = df["CVD_Risk_%"].apply(interpret_risk)
+
 model = train_and_get_model()
 
 # ------------------------------------------------------------------
@@ -133,14 +141,6 @@ def color_risk(val):
         return "background-color: #ea1a21; color: white"  # Red
     else:
         return "background-color: #9d1c1f; color: white"     # Deep Red
-
-def interpret_risk(val):
-    if val < 10: return "Low — Lifestyle focus"
-    elif val < 20: return "Moderate — Consider meds"
-    elif val < 30: return "High — Start treatment"
-    elif val < 40: return "Very High — Intensive care"
-    else: return "Extremely High — Urgent referral"
-df["Interpretation"] = df["CVD_Risk_%"].apply(interpret_risk)
 
 uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
 
