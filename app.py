@@ -102,6 +102,21 @@ st.markdown("**Upload patient data → Get instant risk %**")
 
 st.info("Required columns: `note`, `age`, `sys_bp`, `dia_bp`, `cholesterol`, `glucose`, `bmi`, `smoke`, `family_hx`")
 
+# ------------------------------------------------------------------
+# Color Risk Function (5-tier)
+# ------------------------------------------------------------------
+def color_risk(val):
+    if val < 10:
+        return "background-color: #d4edda; color: #155724"  # Green
+    elif val < 20:
+        return "background-color: #fff3cd; color: #856404"  # Yellow
+    elif val < 30:
+        return "background-color: #ffe5d0; color: #d75f00"  # Orange
+    elif val < 40:
+        return "background-color: #f8d7da; color: #721c24"  # Red
+    else:
+        return "background-color: #721c24; color: white"     # Deep Red
+
 uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
 
 if uploaded_file is not None:
@@ -118,12 +133,7 @@ if uploaded_file is not None:
                     prob = model.predict_proba(df)[:, 1]
                     df["CVD_Risk_%"] = (prob * 100).round(1)
 
-                    # Color coding
-                    def color_risk(val):
-                        if val >= 20: return "background-color: #ffb3b3"
-                        elif val >= 10: return "background-color: #ffffb3"
-                        else: return "background-color: #b3ffb3"
-
+                    # Apply 5-tier color
                     styled_df = df.style.applymap(color_risk, subset=["CVD_Risk_%"]) \
                                         .format({"CVD_Risk_%": "{:.1f}"})
 
