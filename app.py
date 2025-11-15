@@ -107,15 +107,15 @@ st.info("Required columns: `note`, `age`, `sys_bp`, `dia_bp`, `cholesterol`, `gl
 # ------------------------------------------------------------------
 def color_risk(val):
     if val < 10:
-        return "background-color: #d4edda; color: #155724"  # Green
+        return "background-color: #9cc732; color: #155724"  # Green
     elif val < 20:
-        return "background-color: #fff3cd; color: #856404"  # Yellow
+        return "background-color: #fff000; color: #856404"  # Yellow
     elif val < 30:
-        return "background-color: #ffe5d0; color: #d75f00"  # Orange
+        return "background-color: #f3771d; color: #d75f00"  # Orange
     elif val < 40:
-        return "background-color: #f8d7da; color: #721c24"  # Red
+        return "background-color: #ea1a21; color: #721c24"  # Red
     else:
-        return "background-color: #721c24; color: white"     # Deep Red
+        return "background-color: #9d1c1f; color: white"     # Deep Red
 
 uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
 
