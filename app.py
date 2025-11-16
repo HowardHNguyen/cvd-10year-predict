@@ -9,7 +9,7 @@ import pandas as pd
 def train_and_get_model():
     st.info("Training model... (first time only, ~3 sec)")
 
-    df = pd.read_csv("data_cvd_perfect.csv")
+    df = pd.read_csv("data_cvd_perfect_300.csv")
 
     from sklearn.model_selection import train_test_split
     from sklearn.feature_extraction.text import TfidfVectorizer
